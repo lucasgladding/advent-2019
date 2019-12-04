@@ -5,8 +5,9 @@ const { Grid } = require('./index');
 
 describe('03', () => {
   it('tacos', () => {
-    const grid = new Grid(20, 30);
-    grid.append('R1,U2');
+    const grid = new Grid(100, 100);
+    grid.append('U10,R40');
+    grid.append('R10,U20,R15,D15');
     grid.output();
   });
 });
