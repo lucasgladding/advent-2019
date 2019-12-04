@@ -1,66 +1,50 @@
 class Grid {
   constructor(x, y) {
-    this.origin = { x: x / 2, y: y / 2 };
-    this.grid = new Array(y).fill(null).map(() => {
-      return new Array(x).fill('.');
-    });
+    this.grid = {};
+    this.intersections = [];
   }
 
-  append(input) {
-    let x = this.origin.x;
-    let y = this.origin.y;
-    this.update(x, y, 'o');
-
+  append({ id, input }) {
+    let x = 0;
+    let y = 0;
     const paths = input.split(',');
     for (let path of paths) {
       const direction = path.slice(0, 1);
-      const amount = path.slice(1);
+      const length = path.slice(1);
 
-      for (let i = 0; i < amount; i++) {
-        let char;
+      for (let i = 0; i < length; i++) {
         switch (direction) {
           case 'U':
-            char = '|';
             y++;
             break;
           case 'D':
-            char = '|';
             y--;
             break;
           case 'R':
-            char = '-';
             x++;
             break;
           case 'L':
-            char = '-';
             x--;
             break;
         }
-        this.update(x, y, char);
+        const name = `${x},${y}`;
+        const point = { id, x, y };
+
+        const previous = this.grid[name] || [];
+        const filtered = previous.filter(point => point.id != id);
+        if (filtered.length) {
+          const distance = Math.abs(x) + Math.abs(y);
+          this.intersections.push({ x, y, distance });
+        }
+
+        this.grid[name] = [...previous, point];
       }
-      this.update(x, y, '+');
     }
   }
 
-  update(x, y, symbol) {
-    y = this.grid.length - 1 - y;
-    const previous = this.grid[y][x];
-    if (symbol == '+') {
-      this.grid[y][x] = '+';
-    } else if (symbol == '-' && previous == '|') {
-      this.grid[y][x] = 'X';
-    } else if (symbol == '|' && previous == '-') {
-      this.grid[y][x] = 'X';
-    } else {
-      this.grid[y][x] = symbol;
-    }
-  }
-
-  output() {
-    const output = this.grid.map((r) => {
-      return r.join('');
-    }).join('\n');
-    console.log(output);
+  get nearest() {
+    const distances = this.intersections.map(intersection => intersection.distance);
+    return Math.min(...distances);
   }
 }
 
