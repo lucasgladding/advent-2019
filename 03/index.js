@@ -1,15 +1,14 @@
 class Grid {
   constructor(x, y) {
-    this.x = x;
-    this.y = y;
+    this.origin = { x: x / 2, y: y / 2 };
     this.grid = new Array(y).fill(null).map(() => {
       return new Array(x).fill('.');
     });
   }
 
   append(input) {
-    let x = this.x / 2;
-    let y = this.y / 2;
+    let x = this.origin.x;
+    let y = this.origin.y;
     this.update(x, y, 'o');
     const paths = input.split(',');
     for (let path of paths) {
@@ -46,14 +45,16 @@ class Grid {
   }
 
   update(x, y, symbol) {
-    const y1 = this.grid.length - 1 - y;
-    const current = this.grid[y1][x];
+    y = this.grid.length - 1 - y;
+    const previous = this.grid[y][x];
     if (symbol == '+') {
-      this.grid[y1][x] = '+';
-    } else if (current == '-' || current == '|') {
-      this.grid[y1][x] = 'X';
+      this.grid[y][x] = '+';
+    } else if (symbol == '-' && previous == '|') {
+      this.grid[y][x] = 'X';
+    } else if (symbol == '|' && previous == '-') {
+      this.grid[y][x] = 'X';
     } else {
-      this.grid[y1][x] = symbol;
+      this.grid[y][x] = symbol;
     }
   }
 
