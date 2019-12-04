@@ -10,35 +10,33 @@ class Grid {
     let x = this.origin.x;
     let y = this.origin.y;
     this.update(x, y, 'o');
+
     const paths = input.split(',');
     for (let path of paths) {
       const direction = path.slice(0, 1);
       const amount = path.slice(1);
-      switch (direction) {
-        case 'U':
-          for (let i = 0; i < amount; i++) {
+
+      for (let i = 0; i < amount; i++) {
+        let char;
+        switch (direction) {
+          case 'U':
+            char = '|';
             y++;
-            this.update(x, y, '|');
-          }
-          break;
-        case 'D':
-          for (let i = 0; i < amount; i++) {
+            break;
+          case 'D':
+            char = '|';
             y--;
-            this.update(x, y, '|');
-          }
-          break;
-        case 'L':
-          for (let i = 0; i < amount; i++) {
-            x--;
-            this.update(x, y, '-');
-          }
-          break;
-        case 'R':
-          for (let i = 0; i < amount; i++) {
+            break;
+          case 'R':
+            char = '-';
             x++;
-            this.update(x, y, '-');
-          }
-          break;
+            break;
+          case 'L':
+            char = '-';
+            x--;
+            break;
+        }
+        this.update(x, y, char);
       }
       this.update(x, y, '+');
     }
