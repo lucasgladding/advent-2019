@@ -7,6 +7,8 @@ class Grid {
   append({ id, input }) {
     let x = 0;
     let y = 0;
+    let steps = 0;
+
     const paths = input.split(',');
     for (let path of paths) {
       const direction = path.slice(0, 1);
@@ -27,17 +29,21 @@ class Grid {
             x--;
             break;
         }
+
+        steps++;
+
         const name = `${x},${y}`;
-        const point = { id, x, y };
+        const data = { id, x, y, steps };
 
         const previous = this.grid[name] || [];
-        const filtered = previous.filter(point => point.id != id);
-        if (filtered.length) {
+        const points = previous.filter(point => point.id != id).sort((a, b) => (a.steps - b.steps));
+        if (points.length) {
           const distance = Math.abs(x) + Math.abs(y);
-          this.intersections.push({ x, y, distance });
+          const tacos = steps + points[0].steps;
+          this.intersections.push({ x, y, distance, steps: tacos });
         }
 
-        this.grid[name] = [...previous, point];
+        this.grid[name] = [...previous, data];
       }
     }
   }
@@ -45,6 +51,11 @@ class Grid {
   get nearest() {
     const distances = this.intersections.map(intersection => intersection.distance);
     return Math.min(...distances);
+  }
+
+  get steps() {
+    const steps = this.intersections.map(intersection => intersection.steps);
+    return Math.min(...steps);
   }
 }
 
