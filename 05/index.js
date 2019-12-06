@@ -11,22 +11,44 @@ function run(input, id = 0) {
     switch (operation) {
       case 1:
         input[pos3] = input1 + input2;
-        pos = pos + 4;
+        pos += 4;
         break;
       case 2:
         input[pos3] = input1 * input2;
-        pos = pos + 4;
+        pos += 4;
         break;
       case 3:
         input[pos1] = id;
-        pos = pos + 2;
+        pos += 2;
         break;
       case 4:
         output.push(input1);
-        pos = pos + 2;
+        pos += 2;
+        break;
+      case 5:
+        if (input1 != 0) {
+          pos = input2;
+        } else {
+          pos += 3;
+        }
+        break;
+      case 6:
+        if (input1 == 0) {
+          pos = input2;
+        } else {
+          pos += 3;
+        }
+        break;
+      case 7:
+        input[pos3] = input1 < input2 ? 1 : 0;
+        pos += 4;
+        break;
+      case 8:
+        input[pos3] = input1 == input2 ? 1 : 0;
+        pos += 4;
         break;
       default:
-        pos = pos + 4;
+        pos += 4;
         break;
     }
   }
