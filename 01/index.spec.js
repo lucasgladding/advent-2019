@@ -22,11 +22,18 @@ const data2 = [
 ];
 
 describe('01', () => {
-  it.each(data2)('part 2', (mass, expected) => {
+  // it.each(data1)('example 1', (mass, expected) => {
+  //   const fuel = calculate(mass);
+  //   expect(fuel).toEqual(expected);
+  // });
+
+  it.each(data2)('example 2', (mass, expected) => {
     const fuel = calculate(mass);
     expect(fuel).toEqual(expected);
   });
 
-  const output = sum(input);
-  console.log('output', output);
+  it('part 2', () => {
+    const output = sum(input);
+    expect(output).toEqual(4946546);
+  });
 });
