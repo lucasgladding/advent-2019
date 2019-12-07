@@ -1,4 +1,4 @@
-const { run } = require('./index');
+const { run, calculate } = require('./index');
 const input = require('./input');
 
 // 1,0,0,0,99 becomes 2,0,0,0,99 (1 + 1 = 2).
@@ -27,15 +27,8 @@ describe('02', () => {
     expect(output).toEqual([30,1,1,4,2,5,6,0,99]);
   });
 
-  for (let i = 0; i <= 99; i++) {
-    for (let j = 0; j <= 99; j++) {
-      const input0 = [...input];
-      input0[1] = i;
-      input0[2] = j;
-      const output = run(input0);
-      if (output[0] == 19690720) {
-        console.log('output', { i, j });
-      }
-    }
-  }
+  it('problem 2', () => {
+    const output = calculate(input, 19690720);
+    expect(output).toEqual(4559);
+  });
 });

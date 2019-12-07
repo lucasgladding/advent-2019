@@ -20,4 +20,21 @@ function run(input) {
   return input;
 }
 
-module.exports = { run };
+function calculate(input, target) {
+  for (let i = 0; i <= 99; i++) {
+    for (let j = 0; j <= 99; j++) {
+      const input0 = [...input];
+      input0[1] = i;
+      input0[2] = j;
+      const output = run(input0);
+      if (output[0] == target) {
+        return i * 100 + j;
+      }
+    }
+  }
+}
+
+module.exports = {
+  run,
+  calculate
+};
