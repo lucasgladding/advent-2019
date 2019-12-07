@@ -1,48 +1,58 @@
 class Program {
-  constructor(instructions) {
+  constructor(instructions, inputs = [], outputs = []) {
     this.memory = instructions;
-    this.address = -1;
+    this.address = 0;
+    this.inputs = inputs;
+    this.outputs = outputs;
+    this.paused = false;
+    this.done = false;
   }
 
-  run(input = []) {
-    const output = [];
-    this.address = 0;
-    while (this.memory[this.address] && this.memory[this.address] !== 99) {
-      const { operation, modes } = this.parse_instruction();
+  run() {
+    this.paused = false;
+    while (this.is_running()) {
+      const { operation, modes } = this.parse();
       switch (operation) {
         case 1:
-          this.add(modes);
+          this.ADD(modes);
           break;
         case 2:
-          this.multiply(modes);
+          this.MUL(modes);
           break;
         case 3:
-          this.input(input);
+          this.IN();
           break;
         case 4:
-          this.output(modes, output);
+          this.OUT(modes);
           break;
         case 5:
-          this.jump_if_true(modes);
+          this.JMP_TRUE(modes);
           break;
         case 6:
-          this.jump_if_false(modes);
+          this.JMP_FALSE(modes);
           break;
         case 7:
-          this.less_than(modes);
+          this.LT(modes);
           break;
         case 8:
-          this.equals(modes);
+          this.EQ(modes);
+          break;
+        case 99:
+          this.done = true;
           break;
         default:
           this.address += 4;
           break;
       }
     }
-    return output;
+    return this.outputs;
   }
 
-  add(modes) {
+  is_running() {
+    return this.memory[this.address] && !this.done && !this.paused;
+  }
+
+  ADD(modes) {
     const parameter_1 = this.get_parameter(1, modes[0]);
     const parameter_2 = this.get_parameter(2, modes[1]);
     const parameter_3 = this.get_parameter(3, 1);
@@ -50,7 +60,7 @@ class Program {
     this.address += 4;
   }
 
-  multiply(modes) {
+  MUL(modes) {
     const parameter_1 = this.get_parameter(1, modes[0]);
     const parameter_2 = this.get_parameter(2, modes[1]);
     const parameter_3 = this.get_parameter(3, 1);
@@ -58,20 +68,20 @@ class Program {
     this.address += 4;
   }
 
-  input(input) {
+  IN() {
     const parameter_1 = this.get_parameter(1, 1);
-    const value = input.shift();
+    const value = this.inputs.shift();
     this.set_address_value(parameter_1, value);
     this.address += 2;
   }
 
-  output(modes, output) {
+  OUT(modes) {
     const parameter_1 = this.get_parameter(1, modes[0]);
-    output.push(parameter_1);
+    this.outputs.push(parameter_1);
     this.address += 2;
   }
 
-  jump_if_true(modes) {
+  JMP_TRUE(modes) {
     const parameter_1 = this.get_parameter(1, modes[0]);
     const parameter_2 = this.get_parameter(2, modes[1]);
     if (parameter_1) {
@@ -81,7 +91,7 @@ class Program {
     }
   }
 
-  jump_if_false(modes) {
+  JMP_FALSE(modes) {
     const parameter_1 = this.get_parameter(1, modes[0]);
     const parameter_2 = this.get_parameter(2, modes[1]);
     if (!parameter_1) {
@@ -91,7 +101,7 @@ class Program {
     }
   }
 
-  less_than(modes) {
+  LT(modes) {
     const parameter_1 = this.get_parameter(1, modes[0]);
     const parameter_2 = this.get_parameter(2, modes[1]);
     const parameter_3 = this.get_parameter(3, 1);
@@ -99,7 +109,7 @@ class Program {
     this.address += 4;
   }
 
-  equals(modes) {
+  EQ(modes) {
     const parameter_1 = this.get_parameter(1, modes[0]);
     const parameter_2 = this.get_parameter(2, modes[1]);
     const parameter_3 = this.get_parameter(3, 1);
@@ -116,7 +126,7 @@ class Program {
     this.memory[address] = value;
   }
 
-  parse_instruction() {
+  parse() {
     const instruction = this.memory[this.address];
     const operation = instruction % 100;
     const modes = [
@@ -127,14 +137,14 @@ class Program {
     return { operation, modes };
   }
 
-  get_digit(num, pos) {
-    return Math.floor(num / Math.pow(10, pos) % 10);
+  get_digit(input, pos) {
+    return Math.floor(input / Math.pow(10, pos) % 10);
   }
 }
 
-function run(memory, input = 0) {
-  const program = new Program(memory);
-  return program.run(input);
+function run(instructions, input = []) {
+  const program = new Program(instructions, input);
+  return program.run();
 }
 
-module.exports = { run };
+module.exports = { Program, run };
