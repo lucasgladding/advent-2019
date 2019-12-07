@@ -1,10 +1,10 @@
 class Program {
-  constructor(memory) {
-    this.memory = memory;
+  constructor(instructions) {
+    this.memory = instructions;
     this.address = -1;
   }
 
-  run(input = 0) {
+  run(input = []) {
     const output = [];
     this.address = 0;
     while (this.memory[this.address] && this.memory[this.address] !== 99) {
@@ -60,7 +60,8 @@ class Program {
 
   input(input) {
     const parameter_1 = this.get_parameter(1, 1);
-    this.set_address_value(parameter_1, input);
+    const value = input.shift();
+    this.set_address_value(parameter_1, value);
     this.address += 2;
   }
 
