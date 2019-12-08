@@ -2,7 +2,11 @@ class Program {
   constructor(instructions) {
     this.memory = instructions;
     this.address = 0;
-    this.outputs = [];
+    this.output = 0;
+  }
+
+  get done() {
+    return this.memory[this.address] === 99;
   }
 
   run(input = null) {
@@ -17,14 +21,14 @@ class Program {
           break;
         case 3:
           if (input === null) {
-            return;
+            return [];
           }
           this.IN(input);
           input = null;
           break;
         case 4:
-          this.OUT(modes);
-          break;
+          this.output = this.OUT(modes);
+          return this.output;
         case 5:
           this.JMP_TRUE(modes);
           break;
@@ -42,7 +46,22 @@ class Program {
           break;
       }
     }
-    return this.outputs;
+    return this.output;
+  }
+
+  parse() {
+    const instruction = this.memory[this.address];
+    const operation = instruction % 100;
+    const modes = [
+      this.digit(instruction, 2),
+      this.digit(instruction, 3),
+      this.digit(instruction, 4),
+    ];
+    return { operation, modes };
+  }
+
+  digit(input, pos) {
+    return Math.floor(input / Math.pow(10, pos) % 10);
   }
 
   ADD(modes) {
@@ -69,8 +88,8 @@ class Program {
 
   OUT(modes) {
     const parameter_1 = this.parameter(1, modes[0]);
-    this.outputs.push(parameter_1);
     this.address += 2;
+    return parameter_1;
   }
 
   JMP_TRUE(modes) {
@@ -114,19 +133,13 @@ class Program {
     return mode === 1 ? value : this.memory[value];
   }
 
-  parse() {
-    const instruction = this.memory[this.address];
-    const operation = instruction % 100;
-    const modes = [
-      this.digit(instruction, 2),
-      this.digit(instruction, 3),
-      this.digit(instruction, 4),
+  print(input) {
+    const description = [
+      ...this.memory.slice(0, this.address),
+      '>' + this.memory[this.address],
+      ...this.memory.slice(this.address + 1),
     ];
-    return { operation, modes };
-  }
-
-  digit(input, pos) {
-    return Math.floor(input / Math.pow(10, pos) % 10);
+    console.log('state', { memory: description.join(','), address: this.address, input });
   }
 }
 
