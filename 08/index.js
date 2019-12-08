@@ -1,3 +1,33 @@
+function draw(input, dim) {
+  const output = [];
+  const layers = build(input, dim);
+  for (let y = 0; y < dim.h; y++) {
+    const line = [];
+    for (let x = 0; x < dim.w; x++) {
+      const px = pixel(layers, x, y);
+      line.push(px);
+    }
+    output.push(line);
+  }
+
+  return output.map((line) => {
+    return line.join('');
+  }).join('\n');
+}
+
+function pixel(layers, x, y) {
+  for (let layer of layers) {
+    const value = layer[y][x];
+    if (value === 0) {
+      return '*';
+    }
+    if (value === 1) {
+      return ' '
+    }
+  }
+  return ' ';
+}
+
 function sum(input, dim) {
   const tree = build(input, dim);
   const flat = tree.map(item => flatten(item));
@@ -45,4 +75,4 @@ function flatten(input) {
   }, []);
 }
 
-module.exports = { sum, build, flatten };
+module.exports = { draw, sum, build, flatten };
