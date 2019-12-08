@@ -20,6 +20,7 @@ class Program {
             return;
           }
           this.IN(input);
+          input = null;
           break;
         case 4:
           this.OUT(modes);
