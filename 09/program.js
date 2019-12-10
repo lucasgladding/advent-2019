@@ -46,7 +46,7 @@ class Program {
           this.RELATIVE(modes);
           break;
         default:
-          this.address += 4;
+          throw 'unrecognized operation';
           break;
       }
     }
@@ -127,7 +127,6 @@ class Program {
     const parameter_1 = this.parameter(1, modes[0]);
     const parameter_2 = this.parameter(2, modes[1]);
     const parameter_3 = this.parameter(3, 1);
-    this.set(parameter_3, );
     this.set(parameter_3, parameter_1 === parameter_2 ? 1 : 0, modes[2]);
     this.address += 4;
   }
