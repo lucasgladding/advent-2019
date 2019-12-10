@@ -47,7 +47,6 @@ class Program {
           break;
         default:
           throw 'unrecognized operation';
-          break;
       }
     }
     return null;
