@@ -1,7 +1,12 @@
 function process(input) {
   const points = parse(input);
-  const stats = detect(points);
-  return stats.sort((a, b) => { return b.detected - a.detected });
+  const detected = detect(points);
+  return detected.sort((a, b) => (b.detected - a.detected));
+}
+
+function process_point(input, point) {
+  const points = parse(input);
+  return detect_point(points, point);
 }
 
 function parse(input) {
@@ -31,7 +36,7 @@ function detect_point(points, point) {
     const distance = Math.abs(target.x - point.x) + Math.abs(target.y - point.y);
     const data = { ...target, degrees, distance };
     const previous = directions[degrees] || [];
-    directions[degrees] = [...previous, data];
+    directions[degrees] = [...previous, data].sort((a, b) => (a.distance - b.distance));
   }
   const detected = Object.values(directions).length;
   return { ...point, directions, detected };
@@ -45,4 +50,26 @@ function get_degrees(a, b) {
   return (360 - degrees + 90) % 360;
 }
 
-module.exports = { process };
+function vaporize(detected) {
+  const directions = Object.keys(detected.directions).sort(compare_num);
+  let i = 0;
+  let count = 1;
+  let vaporized = {};
+  for (let j = 0; j < 500; j++) {
+    const direction = directions[i];
+    const data = vaporized[direction] || [];
+    const target = detected.directions[direction][data.length];
+    if (target) {
+      vaporized[direction] = [...data, target];
+      console.log('destroyed', { direction, target, count });
+      count++;
+    }
+    i = (i + 1) % directions.length;
+  }
+}
+
+function compare_num(a, b) {
+  return parseFloat(a) - parseFloat(b);
+}
+
+module.exports = { process, process_point, vaporize };
