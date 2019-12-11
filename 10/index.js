@@ -1,7 +1,7 @@
 function process(input) {
-  const positions = parse(input);
-  const stats = count(positions);
-  return stats.sort((a, b) => { return b.count - a.count });
+  const points = parse(input);
+  const stats = detect(points);
+  return stats.sort((a, b) => { return b.detected - a.detected });
 }
 
 function parse(input) {
@@ -19,20 +19,22 @@ function parse(input) {
   return output;
 }
 
-function count(points) {
-  return points.map((point) => {
-    const asteroids = points.filter(p => p !== point);
-    const detected = {};
-    for (let asteroid of asteroids) {
-      const degrees = get_degrees(point, asteroid);
-      const distance = Math.abs(asteroid.x - point.x) + Math.abs(asteroid.y - point.y);
-      const data = { ...asteroid, degrees, distance };
-      const previous = detected[degrees] || [];
-      detected[degrees] = [...previous, data];
-    }
-    const count = Object.values(detected).length;
-    return { ...point, detected, count };
-  });
+function detect(points) {
+  return points.map((point) => detect_point(points, point));
+}
+
+function detect_point(points, point) {
+  const asteroids = points.filter(p => p !== point);
+  const directions = {};
+  for (let asteroid of asteroids) {
+    const degrees = get_degrees(point, asteroid);
+    const distance = Math.abs(asteroid.x - point.x) + Math.abs(asteroid.y - point.y);
+    const data = { ...asteroid, degrees, distance };
+    const previous = directions[degrees] || [];
+    directions[degrees] = [...previous, data];
+  }
+  const detected = Object.values(directions).length;
+  return { ...point, directions, detected };
 }
 
 function get_degrees(a, b) {
@@ -43,4 +45,4 @@ function get_degrees(a, b) {
   return (360 - degrees + 90) % 360;
 }
 
-module.exports = { process, parse, count };
+module.exports = { process };

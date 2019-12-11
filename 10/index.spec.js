@@ -8,7 +8,7 @@ describe('10', () => {
 ....#
 ...##`;
     const stats = process(input);
-    expect(stats[0].count).toEqual(8);
+    expect(stats[0].detected).toEqual(8);
   });
 
   it('example 2', () => {
@@ -23,7 +23,7 @@ describe('10', () => {
 ##...#..#.
 .#....####`;
     const stats = process(input);
-    expect(stats[0].count).toEqual(33);
+    expect(stats[0].detected).toEqual(33);
   });
 
   it('example 3', () => {
@@ -38,7 +38,7 @@ describe('10', () => {
 ......#...
 .####.###.`;
     const stats = process(input);
-    expect(stats[0].count).toEqual(35);
+    expect(stats[0].detected).toEqual(35);
   });
 
   it('example 4', () => {
@@ -54,7 +54,7 @@ describe('10', () => {
 .##...##.#
 .....#.#..`;
     const stats = process(input);
-    expect(stats[0].count).toEqual(41);
+    expect(stats[0].detected).toEqual(41);
   });
 
   it('example 5', () => {
@@ -79,7 +79,7 @@ describe('10', () => {
 #.#.#.#####.####.###
 ###.##.####.##.#..##`;
     const stats = process(input);
-    expect(stats[0].count).toEqual(210);
+    expect(stats[0].detected).toEqual(210);
   });
 
   it('part 1', () => {
@@ -118,6 +118,6 @@ describe('10', () => {
 .#.##.#.#.....#..#..#........##...
 ....#...##.##.##......#..#..##....`;
     const stats = process(input);
-    expect(stats[0].count).toEqual(267);
+    expect(stats[0].detected).toEqual(267);
   });
 });
