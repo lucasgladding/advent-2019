@@ -24,12 +24,12 @@ function detect(points) {
 }
 
 function detect_point(points, point) {
-  const asteroids = points.filter(p => p !== point);
+  const targets = points.filter(p => p !== point);
   const directions = {};
-  for (let asteroid of asteroids) {
-    const degrees = get_degrees(point, asteroid);
-    const distance = Math.abs(asteroid.x - point.x) + Math.abs(asteroid.y - point.y);
-    const data = { ...asteroid, degrees, distance };
+  for (let target of targets) {
+    const degrees = get_degrees(point, target);
+    const distance = Math.abs(target.x - point.x) + Math.abs(target.y - point.y);
+    const data = { ...target, degrees, distance };
     const previous = directions[degrees] || [];
     directions[degrees] = [...previous, data];
   }
