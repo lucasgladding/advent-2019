@@ -121,7 +121,7 @@ describe('10', () => {
     expect(detected[0].detected).toEqual(267);
   });
 
-  it('part 2 - example 1', () => {
+  it('example 6', () => {
     const input = `.#....#####...#..
 ##...##.#####..##
 ##...#...#.#####.
@@ -131,7 +131,7 @@ describe('10', () => {
     vaporize(detected);
   });
 
-  it('part 2 - example 2', () => {
+  it('example 7', () => {
     const input = `.#..##.###...#######
 ##.############..##.
 .#.######.########.#
