@@ -4,6 +4,10 @@ class Position {
     this.y = y;
     this.z = z;
   }
+
+  equals(target) {
+    return this.x === target.x && this.y === target.y && this.z === target.z;
+  }
 }
 
 class Velocity {
@@ -11,6 +15,10 @@ class Velocity {
     this.x = x;
     this.y = y;
     this.z = z;
+  }
+
+  equals(target) {
+    return this.x === target.x && this.y === target.y && this.z === target.z;
   }
 }
 
@@ -38,6 +46,10 @@ class Moon {
     const pot = Math.abs(this.position.x) + Math.abs(this.position.y) + Math.abs(this.position.z);
     const kin = Math.abs(this.velocity.x) + Math.abs(this.velocity.y) + Math.abs(this.velocity.z);
     return pot * kin;
+  }
+
+  equals(target) {
+    return this.position.equals(target.position) && this.velocity.equals(target.velocity);
   }
 }
 

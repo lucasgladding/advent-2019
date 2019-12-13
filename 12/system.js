@@ -42,6 +42,22 @@ class System {
       return acc + moon.energy();
     }, 0);
   }
+
+  count_steps(targets, limit = 1000000000000) {
+    for (let i = 1; i <= limit; i++) {
+      this.step();
+      if (this.equals(targets)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  equals(targets) {
+    return this.moons.every((moon, index) => {
+      return moon.equals(targets[index]);
+    });
+  }
 }
 
 module.exports = { System };
