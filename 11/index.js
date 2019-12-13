@@ -6,10 +6,14 @@ const input = require('./input');
 
 function paint() {
   const grid = new Grid();
-  grid.set(0, 0, 1);
+  grid.set(0, 0, 0);
   const program = new Program(input);
   const robot = new Robot();
-  for (let i = 0; i < 20000; i++) {
+  for (let i = 0; i < 50000; i++) {
+    if (program.done) {
+      console.log('done');
+      break;
+    }
     const current = grid.get(robot.x, robot.y);
     const white = program.run(current);
     const right = program.run();
