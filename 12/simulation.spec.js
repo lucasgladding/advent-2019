@@ -1,7 +1,7 @@
 const { Point, Simulation } = require('./simulation');
 
 describe('12/simulation', () => {
-  it('dimension', () => {
+  it('part 2', () => {
     const count_x = count([4, 11, -2, -7]);
     const count_y = count([1, -18, -10, -2]);
     const count_z = count([1, -1, -4, 14]);

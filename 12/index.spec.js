@@ -43,40 +43,4 @@ describe('12', () => {
     }
     expect(system.energy()).toEqual(9493);
   });
-
-  it('example 3', () => {
-    const moons = [
-      new Moon(-1, 0, 2),
-      new Moon(2, -10, -7),
-      new Moon(4, -8, 8),
-      new Moon(3, 5, -1),
-    ];
-    const system = new System(moons);
-    const targets = [
-      new Moon(-1, 0, 2),
-      new Moon(2, -10, -7),
-      new Moon(4, -8, 8),
-      new Moon(3, 5, -1),
-    ];
-    const count = system.count_steps(targets);
-    expect(count).toEqual(2772);
-  });
-
-  it('part 2', () => {
-    const moons = [
-      new Moon(4, 1, 1),
-      new Moon(11, -18, -1),
-      new Moon(-2, -10, -4),
-      new Moon(-7, -2, 14),
-    ];
-    const system = new System(moons);
-    const targets = [
-      new Moon(4, 1, 1),
-      new Moon(11, -18, -1),
-      new Moon(-2, -10, -4),
-      new Moon(-7, -2, 14),
-    ];
-    const count = system.count_steps(targets);
-    expect(count).toEqual(0);
-  });
 });
