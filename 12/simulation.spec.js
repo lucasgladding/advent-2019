@@ -15,7 +15,7 @@ function count(positions) {
   const points = positions.map(p => new Point(p));
   const simulation = new Simulation(points);
   const targets = positions.map(p => new Point(p));
-  return simulation.count_steps(targets);
+  return simulation.count(targets);
 }
 
 function common(a, b) {

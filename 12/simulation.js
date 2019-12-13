@@ -30,7 +30,7 @@ class Simulation {
     return 0;
   }
 
-  count_steps(targets, limit = 1000000) {
+  count(targets, limit = 1000000) {
     for (let i = 1; i <= limit; i++) {
       this.step();
       if (this.equals(targets)) {
