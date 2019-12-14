@@ -4,15 +4,17 @@ const input = require('./input');
 
 function run() {
   const outputs = [];
-  const program = new Program(input);
-  while (!program.done) {
-    const output = program.run();
-    if (output !== null) {
-      outputs.push(output);
-    }
+  function output(value) {
+    outputs.push(value);
   }
+
+  const program = new Program(input, output);
+  while (!program.done) {
+    program.run();
+  }
+
   const groups = chunk(outputs, 3);
-  const ids = groups.map(item => item[2]);
+  const ids = groups.map(group => group[2]);
   return ids.filter(id => id === 2).length;
 }
 

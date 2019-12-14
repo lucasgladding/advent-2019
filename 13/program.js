@@ -1,9 +1,11 @@
+const noop = () => {};
+
 class Program {
-  constructor(instructions) {
-    this.memory = instructions;
+  constructor(memory, output = noop) {
+    this.memory = memory;
     this.address = 0;
     this.base = 0;
-    this.output = 0;
+    this.output = output;
   }
 
   get done() {
@@ -29,7 +31,7 @@ class Program {
           break;
         case 4:
           this.OUT(modes);
-          return this.output;
+          break;
         case 5:
           this.JMP_TRUE(modes);
           break;
@@ -95,7 +97,7 @@ class Program {
   OUT(modes) {
     const parameter_1 = this.parameter(1, modes[0]);
     this.log('OUT', { parameter_1 });
-    this.output = parameter_1;
+    this.output(parameter_1);
     this.address += 2;
   }
 
