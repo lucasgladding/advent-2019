@@ -136,16 +136,16 @@ class Program {
   }
 
   parameter(index, mode = 0) {
-    const value = this.memory[this.address + index];
-    if (mode === 1) {
-      return value;
-    }
-    return this.get(value, mode);
+    const position = this.memory[this.address + index];
+    return this.get(position, mode);
   }
 
   get(position, mode = 0) {
     if (mode === 2) {
       return this.memory[this.base + position] || 0;
+    }
+    if (mode === 1) {
+      return position;
     }
     return this.memory[position] || 0;
   }
@@ -153,8 +153,9 @@ class Program {
   set(position, value, mode = 0) {
     if (mode === 2) {
       this.memory[this.base + position] = value;
+    } else {
+      this.memory[position] = value;
     }
-    this.memory[position] = value;
   }
 }
 
