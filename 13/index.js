@@ -3,23 +3,16 @@ const { Program } = require('./program');
 const input = require('./input');
 
 function run() {
-  let count = 0;
   const outputs = [];
   const program = new Program(input);
   while (!program.done) {
-    if (count > 20) {
-      break;
-    }
-    count++;
-
     const output = program.run();
-    if (output) {
+    if (output !== null) {
       outputs.push(output);
     }
   }
-  const chunked = chunk(outputs, 3);
-  return outputs;
-  const ids = chunked.map(item => item[2]);
+  const groups = chunk(outputs, 3);
+  const ids = groups.map(item => item[2]);
   return ids.filter(id => id === 2).length;
 }
 
