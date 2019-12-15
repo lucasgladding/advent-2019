@@ -1,23 +1,20 @@
-const { Chemical } = require('./chemical');
-const { Reaction } = require('./reaction');
+const { parse } = require('./parse');
+const { flatten } = require('./helpers');
+const { Storage } = require('./storage');
 
-function parse(string) {
-  const lines = string.split('\n');
-  return lines.filter(line => line).map(parse_line);
+function create(string) {
+  const storage = new Storage();
+  const reactions = parse(string);
+  for (let item of reactions) {
+    storage.set(item.output.name, item);
+  }
+  return storage;
 }
 
-function parse_line(string) {
-  const [input_string, output_string] = string.split(' => ');
-  const input = input_string.split(', ').map(parse_chem);
-  const output = parse_chem(output_string);
-  return new Reaction(input, output);
+function measure(source) {
+  return flatten(source).reduce((count, item) => {
+    return count + item.units;
+  }, 0);
 }
 
-function parse_chem(string) {
-  const components = string.split(' ');
-  const units = parseInt(components[0]);
-  const name = components[1];
-  return new Chemical(units, name);
-}
-
-module.exports = { parse };
+module.exports = { create, measure };
