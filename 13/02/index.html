@@ -1,0 +1,41 @@
+<pre id="screen"></pre>
+<div id="score"></div>
+
+<style>
+    .icon   { display: inline-block; height: 10px; width: 10px; }
+    .wall   { background: black; }
+    .block  { background: gray; }
+    .paddle { background: orange; }
+    .ball   { background: blue; }
+</style>
+<script type="module">
+
+  import { Game } from './game.js';
+
+  const game = new Game();
+  const screen = document.getElementById('screen');
+  const score = document.getElementById('score');
+
+  let input = 0;
+
+  document.addEventListener("keydown", event => {
+    const code = event.keyCode;
+    if (code === 37) {
+      input = -1;
+    }
+    if (code === 39) {
+      input = 1;
+    }
+  });
+
+  document.addEventListener("keyup", event => {
+    input = 0;
+  });
+
+  setInterval(() => {
+    game.run(input);
+    screen.innerHTML = game.print();
+    score.innerHTML = game.score();
+  }, 5);
+
+</script>

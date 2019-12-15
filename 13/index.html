@@ -1,0 +1,16 @@
+<div id="score"></div>
+<div id="screen"></div>
+
+<script type="module">
+
+  const { Game } = require('./02/game');
+
+  const game = new Game();
+  const screen = document.getElementById('screen');
+
+  setInterval(() => {
+    game.run(0);
+    screen.innerHTML = game.print();
+  }, 1000);
+
+</script>

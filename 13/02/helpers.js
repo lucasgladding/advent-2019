@@ -1,4 +1,4 @@
-function chunk(input, size) {
+export function chunk(input, size) {
   let i = 0;
   const output = [];
   while (i < input.length) {
@@ -8,5 +8,3 @@ function chunk(input, size) {
   }
   return output;
 }
-
-module.exports = { chunk };
