@@ -12,6 +12,7 @@ export class Game {
   }
 
   run(input = null) {
+    // cheats
     input = 0;
     if (this.target < this.current) {
       input = -1;
@@ -19,6 +20,7 @@ export class Game {
     if (this.target > this.current) {
       input = +1;
     }
+
     this.program.run(input);
   }
 
@@ -41,6 +43,7 @@ export class Game {
       for (let x = 0; x <= 40; x++) {
         const id = this.grid.get(x, y);
 
+        // cheats
         if (id === 3) {
           this.current = x;
         }
