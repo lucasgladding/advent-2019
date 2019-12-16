@@ -1,5 +1,5 @@
 class Storage {
-  constructor(storage) {
+  constructor() {
     this.storage = {};
   }
 

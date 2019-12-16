@@ -1,11 +1,11 @@
 class Chemical {
-  constructor(quantity, name) {
-    this.units = quantity;
+  constructor(units, name) {
+    this.units = units;
     this.name = name;
   }
 
-  times(value) {
-    return new Chemical(this.units * value, this.name);
+  times(amount) {
+    return new Chemical(this.units * amount, this.name);
   }
 }
 
