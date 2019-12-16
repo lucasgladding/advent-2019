@@ -1,3 +1,4 @@
+const clear = require('clear');
 const inquirer = require('inquirer');
 
 const { Grid } = require('./grid');
@@ -13,7 +14,8 @@ const questions = [
     type: 'input',
     name: 'direction',
     message: 'Which direction?',
-  }
+    choices: ['n', 's', 'w', 'e'],
+  },
 ];
 
 let target_direction = 0;
@@ -24,6 +26,7 @@ const grid = new Grid();
 const robot = new Robot();
 
 function output(value) {
+  clear();
   const location = robot.target(target_direction);
   if (value === 0) {
     grid.set(location.x, location.y, '#');
@@ -31,6 +34,9 @@ function output(value) {
   if (value > 0) {
     grid.set(location.x, location.y, '.');
     robot.move(target_direction);
+  }
+  if (value === 2) {
+    console.log('Reached the oxygen system!');
   }
   const output = render(grid, robot);
   console.log(output);
