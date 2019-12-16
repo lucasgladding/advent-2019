@@ -50,4 +50,34 @@ describe('14', () => {
     nanofactory.produce(1, 'FUEL');
     expect(nanofactory.mine).toEqual(1582325);
   });
+
+  const cargo = 1000000000000;
+
+  it('example 3.2', () => {
+    const reactions = parse_reactions(example_3);
+    const nanofactory = new Nanofactory(reactions);
+    const amount = nanofactory.get_fuel(cargo);
+    expect(amount).toEqual(82892753);
+  });
+
+  it('example 4.2', () => {
+    const reactions = parse_reactions(example_4);
+    const nanofactory = new Nanofactory(reactions);
+    const amount = nanofactory.get_fuel(cargo);
+    expect(amount).toEqual(5586022);
+  });
+
+  it('example 5.2', () => {
+    const reactions = parse_reactions(example_5);
+    const nanofactory = new Nanofactory(reactions);
+    const amount = nanofactory.get_fuel(cargo);
+    expect(amount).toEqual(460664);
+  });
+
+  it('part 2', () => {
+    const reactions = parse_reactions(input);
+    const nanofactory = new Nanofactory(reactions);
+    const amount = nanofactory.get_fuel(cargo);
+    expect(amount).toEqual(2267486);
+  });
 });

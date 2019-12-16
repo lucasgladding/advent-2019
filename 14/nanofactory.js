@@ -1,8 +1,13 @@
+const { approximate } = require('./approximate');
 const { Chemical } = require('./chemical');
 
 class Nanofactory {
   constructor(reactions) {
     this.reactions = reactions;
+    this.flush();
+  }
+
+  flush() {
     this.mine = 0;
     this.excess = {};
   }
@@ -43,6 +48,25 @@ class Nanofactory {
 
   debug(message, data) {
     // console.log(message, data);
+  }
+
+  //
+
+  get_fuel(cargo) {
+    this.flush();
+    this.produce(1, 'FUEL');
+    const each = this.mine;
+
+    const target = Math.floor(cargo / each);
+
+    const amount = approximate(target, target * 5, (target) => {
+      this.flush();
+      this.produce(target, 'FUEL');
+      const excess = cargo - this.mine;
+      return excess > 0;
+    });
+
+    return Math.round(amount);
   }
 }
 
