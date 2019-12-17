@@ -10,23 +10,23 @@ class Robot {
     this.location = { x: 0, y: 0 };
   }
 
-  is_here(x, y) {
+  current(x, y) {
     return this.location.x === x && this.location.y === y;
   }
 
   target(direction) {
     const target = { ...this.location };
     switch (direction) {
-      case Direction.N:
+      case 'N':
         target.y += 1;
         break;
-      case Direction.S:
+      case 'S':
         target.y -= 1;
         break;
-      case Direction.W:
+      case 'W':
         target.x -= 1;
         break;
-      case Direction.E:
+      case 'E':
         target.x += 1;
         break;
     }

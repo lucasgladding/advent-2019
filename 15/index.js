@@ -1,59 +1,63 @@
-const clear = require('clear');
-const inquirer = require('inquirer');
-
 const { Grid } = require('./grid');
+const { Space, Wall } = require('./nodes');
 const { Program } = require('./program');
 const { render } = require('./render');
-const { Robot, Direction } = require('./robot');
+const { Robot } = require('./robot');
+
 const input = require('./input');
-
-//
-
-const questions = [
-  {
-    type: 'input',
-    name: 'direction',
-    message: 'Which direction?',
-    choices: ['n', 's', 'w', 'e'],
-  },
-];
-
-let target_direction = 0;
 
 //
 
 const grid = new Grid();
 const robot = new Robot();
 
+let count = 0;
+let current = new Space(0);
+
+grid.set(0, 0, '.');
+
 function output(value) {
-  clear();
-  const location = robot.target(target_direction);
+  const direction = current.get_next_direction();
+  const target = robot.target(direction);
   if (value === 0) {
-    grid.set(location.x, location.y, '#');
+    const node = new Wall();
+    current.set_wall(direction, node);
+    grid.set(target.x, target.y, '#');
   }
   if (value > 0) {
-    grid.set(location.x, location.y, '.');
-    robot.move(target_direction);
+    count++;
+    const node = new Space(count);
+    current.set_space(direction, node);
+    current = node;
+    grid.set(target.x, target.y, '.');
+    robot.move(direction);
   }
-  if (value === 2) {
-    console.log('Reached the oxygen system!');
-  }
-  const output = render(grid, robot);
-  console.log(output);
+  render(grid, robot);
 }
 
 const program = new Program(input, output);
-program.run();
-grid.set(0, 0, '.');
+
+function get_input(direction) {
+  switch (direction) {
+    case 'N':
+      return 1;
+    case 'S':
+      return 2;
+    case 'W':
+      return 3;
+    case 'E':
+      return 4;
+  }
+}
 
 function run() {
-  inquirer.prompt(questions)
-    .then((answers) => {
-      const input = answers.direction.toUpperCase();
-      target_direction = Direction[input];
-      program.run(target_direction);
-      run();
-    });
+  const direction = current.get_next_direction();
+  const input = get_input(direction);
+  program.run(input);
+
+  setTimeout(() => {
+    run();
+  }, 50);
 }
 
 run();

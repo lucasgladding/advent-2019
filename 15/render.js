@@ -1,8 +1,10 @@
+const size = 30;
+
 function render(grid, robot) {
   let output = '';
-  for (let y = 20; y > -20; y--) {
-    for (let x = -20; x < 20; x++) {
-      if (robot.is_here(x, y)) {
+  for (let y = size; y > -size; y--) {
+    for (let x = -size; x < size; x++) {
+      if (robot.current(x, y)) {
         output += 'D';
       } else {
         output += grid.get(x, y);
@@ -10,7 +12,7 @@ function render(grid, robot) {
     }
     output += '\n';
   }
-  return output;
+  console.log(output);
 }
 
 module.exports = { render };
