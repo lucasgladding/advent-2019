@@ -9,11 +9,9 @@ class Space {
 
   get_next_direction() {
     const next = this.get_next_undefined();
-
     if (next) {
       return next;
     }
-
     return this.get_previous();
   }
 
@@ -28,8 +26,7 @@ class Space {
   get_previous() {
     for (let direction of DIRECTIONS) {
       const node = this.directions[direction];
-      const distance = this.distance - 1;
-      if (node.distance === distance) {
+      if (node.distance < this.distance) {
         return direction;
       }
     }

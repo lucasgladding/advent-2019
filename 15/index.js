@@ -25,12 +25,23 @@ function output(value) {
     grid.set(target.x, target.y, '#');
   }
   if (value > 0) {
-    count++;
-    const node = new Space(count);
+    let node;
+    const previous = current.directions[direction];
+    if (previous) {
+      count = previous.distance;
+      node = previous;
+    } else {
+      count++;
+      node = new Space(count);
+    }
     current.set_space(direction, node);
     current = node;
     grid.set(target.x, target.y, '.');
     robot.move(direction);
+  }
+  if (value === 2) {
+    console.log('FOUND', current.distance);
+    grid.set(target.x, target.y, 'X');
   }
   render(grid, robot);
 }
@@ -57,7 +68,7 @@ function run() {
 
   setTimeout(() => {
     run();
-  }, 50);
+  }, 5);
 }
 
 run();

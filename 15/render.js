@@ -1,4 +1,4 @@
-const size = 30;
+const size = 25;
 
 function render(grid, robot) {
   let output = '';
