@@ -8,11 +8,14 @@ const input = require('./input');
 
 //
 
+let stage = 0;
+let maximum = 0;
+
 const grid = new Grid();
 const robot = new Robot();
 
-let count = 0;
 let current = new Space(0);
+let found;
 
 grid.set(0, 0, '.');
 
@@ -22,25 +25,39 @@ function output(value) {
   if (value === 0) {
     const node = new Wall();
     current.set_wall(direction, node);
+
     grid.set(target.x, target.y, '#');
   }
   if (value > 0) {
-    let node;
-    const previous = current.directions[direction];
-    if (previous) {
-      count = previous.distance;
-      node = previous;
-    } else {
-      count++;
-      node = new Space(count);
+    const distance = current.distance + 1;
+    if (distance > maximum) {
+      maximum = distance;
     }
+
+    console.log('MOVED', distance);
+
+    const node = current.directions[direction] || new Space(distance);
     current.set_space(direction, node);
     current = node;
+
     grid.set(target.x, target.y, '.');
     robot.move(direction);
   }
   if (value === 2) {
-    console.log('FOUND', current.distance);
+    found = current;
+
+    if (stage === 0) {
+      console.log('FOUND', found.distance);
+      stage = 1;
+      maximum = 0;
+      grid.clear();
+      current.clear();
+    }
+
+    if (stage === 1) {
+      console.log('MAXIMUM', maximum);
+    }
+
     grid.set(target.x, target.y, 'X');
   }
   render(grid, robot);
@@ -63,12 +80,14 @@ function get_input(direction) {
 
 function run() {
   const direction = current.get_next_direction();
+  if (!direction) {
+    return;
+  }
+
   const input = get_input(direction);
   program.run(input);
 
-  setTimeout(() => {
-    run();
-  }, 5);
+  setTimeout(() => run(), 20);
 }
 
 run();

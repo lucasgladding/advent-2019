@@ -3,6 +3,10 @@ class Grid {
     this.storage = {};
   }
 
+  clear() {
+    this.storage = {};
+  }
+
   get(x, y) {
     const item = this.storage[y] || {};
     return item[x] || ' ';

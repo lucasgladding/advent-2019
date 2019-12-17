@@ -7,12 +7,17 @@ class Space {
     this.directions = {};
   }
 
+  clear() {
+    this.distance = 0;
+    this.directions = {};
+  }
+
   get_next_direction() {
-    const next = this.get_next_undefined();
-    if (next) {
-      return next;
+    const next_undefined = this.get_next_undefined();
+    if (!next_undefined) {
+      return this.get_previous();
     }
-    return this.get_previous();
+    return next_undefined;
   }
 
   get_next_undefined() {
