@@ -1,7 +1,6 @@
 function loop(sequence, pattern, times) {
   let current = sequence;
   for (let i = 0; i < times; i++) {
-    console.log('loop', i);
     current = process(current, pattern);
   }
   return current;
