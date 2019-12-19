@@ -1,4 +1,4 @@
-function loop(sequence, pattern, times) {
+function process_loop(sequence, pattern, times) {
   let current = sequence;
   for (let i = 0; i < times; i++) {
     current = process(current, pattern);
@@ -32,4 +32,4 @@ function inner_repeat(items, times) {
   }, []);
 }
 
-module.exports = { loop, process };
+module.exports = { process_loop, process };
